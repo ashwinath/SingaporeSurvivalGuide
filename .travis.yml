@@ -1,5 +1,10 @@
 language: android
-dist: trusty
+before_install:
+  - sudo add-apt-repository ppa:openjdk-r/ppa
+  - sudo apt-get -qq update
+  - sudo apt-get install -y openjdk-8-jdk
+  - sudo update-java-alternatives -s java-1.8.0-openjdk-amd64
+sudo: required
 android:
   components:
     - build-tools-25.0.2
@@ -9,5 +14,3 @@ env:
   - JDK=openjdk8
   global:
     secure: m07Rf5iid12GeYnY8+TzJF2ovXBz9Ui1jzhpkhmobFSlIZcGR+0K/Ng9NILGsNX3YlfKnwYlsTHz5a0ot7U0U6v1zcHbsq2VRiktF+ofOtmCtexbdHDh/bXII/7Rtz8IdffU0DuzBQZrW43A+5ZxFA8oX+IGc+5kaalpXYbDlFohtktXV5H8831x7lQnpP80qKsw1wMG+6aDAvGPwqRXVBBIZf7eVa4xPJPWCUZTK8usVXIUdWOuwH9OSB5z1BTx+YaPPLLZj3e8Jr+y+mFgxT6wL3CSGdVD6/OCv9NwMUdOZyoA+GIGoAOInxxnca2MIjcfjOpKdPSaKmM11BTVCuYJhn1Gqm7uxRg/q5lZSEWo2UPWuYhFFaSHIynI5oJwBsqjXuX410i38zxLDHXjg9nQhpJjacUZOP/hxETikuac/qhzB3Vopwq8t4iXwAh21XWkHxgArhncwC+SEaH0NNSlcfIEJkH6EO0ahTtdaQkzZgwlbCQETQbLkl8iK8LS8TeYfh1T23mNkLFlBUJwkir/t48/Pl/xurwmbmKWUhVXWz2L2CMbYM8d6nBEgKSZNtk6ooV5eX0mjkCdEIwsI/bj7YF9eJ6KTmpdx6IGuFvoTyR0BUqTXUId72ahtuezR2QbdGMXkh+b0ckp5OqcDT5v6Z1vkMB7+VeJ7SHpoQo=
-before_script:
-  - jdk-switcher use $JDK
