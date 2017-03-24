@@ -4,6 +4,10 @@ before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y openjdk-8-jdk
   - sudo update-java-alternatives -s java-1.8.0-openjdk-amd64
+licenses:
+  - 'android-sdk-preview-license-.+'
+  - 'android-sdk-license-.+'
+  - 'google-gdk-license-.+'
 sudo: required
 android:
   components:
