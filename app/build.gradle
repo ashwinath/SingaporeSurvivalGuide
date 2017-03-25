@@ -34,6 +34,8 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.5'
     compile group: 'commons-io', name: 'commons-io', version: '2.5'
     compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.0'
+    compile group: 'joda-time', name: 'joda-time', version: '2.9.9'
+    compile 'com.github.satyan:sugar:1.5'
     testCompile 'junit:junit:4.12'
     testCompile "org.robolectric:robolectric:3.3.1"
 }
