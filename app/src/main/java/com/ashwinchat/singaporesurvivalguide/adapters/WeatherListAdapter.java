@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.ashwinchat.singaporesurvivalguide.R;
 import com.ashwinchat.singaporesurvivalguide.database.daos.WeatherDao;
 
+import org.apache.commons.lang3.text.WordUtils;
 import org.joda.time.LocalDateTime;
 
 import java.util.ArrayList;
@@ -62,8 +63,8 @@ public class WeatherListAdapter extends ArrayAdapter<WeatherDao> {
         this.highTextView.setText(weatherObject.getMaxTemp() + "°");
         this.lowTextView.setText(weatherObject.getMinTemp() + "°");
         // TODO: fix these two hardcoded values
-        this.iconImageView.setImageResource(R.drawable.art_clear);
-        this.forecastTextView.setText("Clear");
+        this.iconImageView.setImageResource(GeneralUtils.getArtResourceForWeatherCondition(weatherObject.getWeatherId()));
+        this.forecastTextView.setText(WordUtils.capitalize(weatherObject.getWeatherDesc()));
     }
 
     private String formatDateTextView(LocalDateTime dateTime, int position) {
