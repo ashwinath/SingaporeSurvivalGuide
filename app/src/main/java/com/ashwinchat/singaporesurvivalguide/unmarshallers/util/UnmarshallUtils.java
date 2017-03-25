@@ -32,7 +32,6 @@ public class UnmarshallUtils<T> {
 
     // Chose apache utils over android URI builder since there's some problem with unit testing and I love my unit tests.
     public static String buildWeatherUri(String apiKey) {
-        // http://api.openweathermap.org/data/2.5/forecast/daily?q=singapore&apikey=4db05fc40e9f10a04b7abe336a52cc33
         Builder builder = new Builder();
         builder.scheme("http")
                 .authority("api.openweathermap.org")

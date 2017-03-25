@@ -25,22 +25,38 @@ public class TestUnmarshal {
     }
 
     @Test
-    public void testDownloadFromOpenWeatherMap() throws IOException {
-        final String apiKey = System.getenv(ENV_KEY_API_KEY);
-        String jsonString = UnmarshallUtils.callOpenWeatherMapApi(apiKey);
-        Assert.assertTrue(StringUtils.isNotBlank(jsonString));
+    public void testDownloadFromOpenWeatherMap() {
+        boolean testCompleted = false;
+        try {
+            final String apiKey = System.getenv(ENV_KEY_API_KEY);
+            String jsonString = UnmarshallUtils.callOpenWeatherMapApi(apiKey);
+            Assert.assertTrue(StringUtils.isNotBlank(jsonString));
+            testCompleted = true;
+        } catch (IOException e) {
+            // do nothing there since I don't want the stack trace coming out.
+            // instead we just fail the test here
+            Assert.assertTrue(testCompleted);
+        }
     }
 
     @Test
-    public void testUnmarshallWeatherObject() throws IOException {
-        final String apiKey = System.getenv(ENV_KEY_API_KEY);
-        String jsonString = UnmarshallUtils.callOpenWeatherMapApi(apiKey);
-        OpenWeatherMap weatherBean = UnmarshallUtils.convertJsonToObject(jsonString, OpenWeatherMap.class);
-        Assert.assertNotNull(weatherBean);
-        Assert.assertNotNull(weatherBean.getMessage());
-        Assert.assertNotNull(weatherBean.getCity());
-        Assert.assertNotNull(weatherBean.getCnt());
-        Assert.assertNotNull(weatherBean.getCod());
-        Assert.assertNotNull(weatherBean.getList());
+    public void testUnmarshallWeatherObject() {
+        boolean testCompleted = false;
+        try {
+            final String apiKey = System.getenv(ENV_KEY_API_KEY);
+            String jsonString = UnmarshallUtils.callOpenWeatherMapApi(apiKey);
+            OpenWeatherMap weatherBean = UnmarshallUtils.convertJsonToObject(jsonString, OpenWeatherMap.class);
+            Assert.assertNotNull(weatherBean);
+            Assert.assertNotNull(weatherBean.getMessage());
+            Assert.assertNotNull(weatherBean.getCity());
+            Assert.assertNotNull(weatherBean.getCnt());
+            Assert.assertNotNull(weatherBean.getCod());
+            Assert.assertNotNull(weatherBean.getList());
+            testCompleted = true;
+        } catch (IOException e) {
+            // do nothing there since I don't want the stack trace coming out.
+            // instead we just fail the test here
+            Assert.assertTrue(testCompleted);
+        }
     }
 }
