@@ -5,24 +5,29 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.ashwinchat.singaporesurvivalguide.R;
-import com.ashwinchat.singaporesurvivalguide.fragments.PlanetFragment;
+import com.ashwinchat.singaporesurvivalguide.fragments.MainFragment;
+import com.ashwinchat.singaporesurvivalguide.fragments.WeatherFragment;
 
 public class DrawerItemClickListener implements AdapterView.OnItemClickListener {
 
-    private Activity activity;
+    private AppCompatActivity activity;
     private ListView listView;
-    private String[] planetTitles;
+    private String[] navBarTitles;
     private DrawerLayout drawerLayout;
 
-    public DrawerItemClickListener(Activity activity, ListView listView, String[] planetTitles, DrawerLayout drawerLayout) {
+    private static final int NAV_POSITION_MAIN = 0;
+    private static final int NAV_POSITION_WEATHER = 1;
+
+    public DrawerItemClickListener(AppCompatActivity activity, ListView listView, String[] navBarTitles, DrawerLayout drawerLayout) {
         this.activity = activity;
         this.listView = listView;
-        this.planetTitles = planetTitles;
+        this.navBarTitles = navBarTitles;
         this.drawerLayout = drawerLayout;
     }
 
@@ -33,10 +38,17 @@ public class DrawerItemClickListener implements AdapterView.OnItemClickListener 
 
     private void selectItem(int position) {
         // Create new fragment and specify which planet to show based on position
-        Fragment fragment = new PlanetFragment();
-        Bundle args = new Bundle();
-        args.putInt(PlanetFragment.ARG_PLANET_NUMBER, position);
-        fragment.setArguments(args);
+        Fragment fragment = null;
+        switch (position) {
+            case NAV_POSITION_MAIN:
+                fragment = new MainFragment();
+                break;
+            case NAV_POSITION_WEATHER:
+                fragment = new WeatherFragment();
+                break;
+            default:
+                fragment = new MainFragment();
+        }
 
         // Insert fragment by replacing any existing fragment
         FragmentManager fragmentManager = activity.getFragmentManager();
@@ -47,7 +59,7 @@ public class DrawerItemClickListener implements AdapterView.OnItemClickListener 
 
         // Highlight the selected item, update the title and close the drawer
         listView.setItemChecked(position, true);
-        activity.setTitle(planetTitles[position]);
+        activity.setTitle(navBarTitles[position]);
         drawerLayout.closeDrawer(listView);
     }
 

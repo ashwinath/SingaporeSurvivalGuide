@@ -1,5 +1,7 @@
 package com.ashwinchat.singaporesurvivalguide.activities;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.res.Configuration;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
@@ -11,11 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.ashwinchat.singaporesurvivalguide.R;
+import com.ashwinchat.singaporesurvivalguide.fragments.MainFragment;
 import com.ashwinchat.singaporesurvivalguide.listeners.DrawerItemClickListener;
 import com.ashwinchat.singaporesurvivalguide.listeners.DrawerToggleListener;
 
 public class WelcomePageActivity extends AppCompatActivity {
-    private String[] planetTitles;
+    private String[] navbarTitles;
     private DrawerLayout drawerLayout;
     private ListView drawerList;
     private CharSequence title;
@@ -24,16 +27,19 @@ public class WelcomePageActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
 
-        planetTitles = this.getResources().getStringArray(R.array.planets_array);
+        setContentView(R.layout.activity_main);
+        // Load initial fragment
+        this.initialiseMainFragment();
+
+        navbarTitles = this.getResources().getStringArray(R.array.navBarTitles);
         drawerLayout = (DrawerLayout) this.findViewById(R.id.drawer_layout);
         drawerList = (ListView) this.findViewById(R.id.left_drawer);
 
         // Set the adapter for the list view
-        drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, planetTitles));
+        drawerList.setAdapter(new ArrayAdapter<>(this, R.layout.drawer_list_item, navbarTitles));
         // set the list's click listener
-        drawerList.setOnItemClickListener(new DrawerItemClickListener(this, drawerList, planetTitles, drawerLayout));
+        drawerList.setOnItemClickListener(new DrawerItemClickListener(this, drawerList, navbarTitles, drawerLayout));
 
         title = this.getTitle();
         drawerLayout = (DrawerLayout) this.findViewById(R.id.drawer_layout);
@@ -45,6 +51,14 @@ public class WelcomePageActivity extends AppCompatActivity {
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
 
+    }
+
+    private void initialiseMainFragment() {
+        Fragment mainFragment = new MainFragment();
+        FragmentManager fragmentManager = this.getFragmentManager();
+        fragmentManager.beginTransaction()
+                .replace(R.id.content_frame, mainFragment)
+                .commit();
     }
 
     @Override
@@ -72,4 +86,5 @@ public class WelcomePageActivity extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
 }
