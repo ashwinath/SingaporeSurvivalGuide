@@ -3,12 +3,13 @@ package com.ashwinchat.singaporesurvivalguide.unmarshallers.util;
 import com.google.gson.Gson;
 
 import org.apache.commons.io.IOUtils;
-import org.apache.http.client.utils.URIBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.lang.reflect.Type;
 import java.net.URL;
+
+import static android.net.Uri.*;
 
 public class UnmarshallUtils<T> {
 
@@ -31,13 +32,18 @@ public class UnmarshallUtils<T> {
 
     // Chose apache utils over android URI builder since there's some problem with unit testing and I love my unit tests.
     public static String buildWeatherUri(String apiKey) {
-        URIBuilder builder = new URIBuilder()
-                .setScheme("http")
-                .setHost("api.openweathermap.org")
-                .setPath("/data/2.5/forecast/daily")
-                .setParameter("q", "singapore")
-                .setParameter("apikey", apiKey);
-        return builder.toString();
+        // http://api.openweathermap.org/data/2.5/forecast/daily?q=singapore&apikey=***REMOVED***
+        Builder builder = new Builder();
+        builder.scheme("http")
+                .authority("api.openweathermap.org")
+                .appendPath("data")
+                .appendPath("2.5")
+                .appendPath("forecast")
+                .appendPath("daily")
+                .appendQueryParameter("q", "singapore")
+                .appendQueryParameter("apikey", apiKey);
+        return builder.build().toString();
+
     }
 
 }
