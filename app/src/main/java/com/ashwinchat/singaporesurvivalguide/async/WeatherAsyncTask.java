@@ -1,9 +1,7 @@
 package com.ashwinchat.singaporesurvivalguide.async;
 
-import android.content.Context;
 import android.os.AsyncTask;
 
-import com.ashwinchat.singaporesurvivalguide.R;
 import com.ashwinchat.singaporesurvivalguide.database.daos.WeatherDao;
 import com.ashwinchat.singaporesurvivalguide.unmarshallers.pojos.weather.List;
 import com.ashwinchat.singaporesurvivalguide.unmarshallers.pojos.weather.OpenWeatherMap;
