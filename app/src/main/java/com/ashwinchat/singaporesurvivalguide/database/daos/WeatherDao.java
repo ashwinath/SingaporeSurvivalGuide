@@ -4,7 +4,7 @@ import com.orm.SugarRecord;
 
 import org.joda.time.LocalDateTime;
 
-import GeneralUtils.DateUtils;
+import GeneralUtils.GeneralUtils;
 
 public class WeatherDao extends SugarRecord {
 
@@ -12,8 +12,8 @@ public class WeatherDao extends SugarRecord {
 
     // this is stored in unix time stamp since sqlite has no functionality for date
     private long date;
-    private double minTemp;
-    private double maxTemp;
+    private int minTemp;
+    private int maxTemp;
     private double pressure;
     private int humidity;
     private String weatherDesc;
@@ -32,22 +32,22 @@ public class WeatherDao extends SugarRecord {
     }
 
     public void setDate(LocalDateTime date) {
-        this.date = DateUtils.convertFromDateToUnixTimeStamp(date);
+        this.date = GeneralUtils.convertFromDateToUnixTimeStamp(date);
     }
 
-    public double getMinTemp() {
+    public int getMinTemp() {
         return minTemp;
     }
 
-    public void setMinTemp(double minTemp) {
+    public void setMinTemp(int minTemp) {
         this.minTemp = minTemp;
     }
 
-    public double getMaxTemp() {
+    public int getMaxTemp() {
         return maxTemp;
     }
 
-    public void setMaxTemp(double maxTemp) {
+    public void setMaxTemp(int maxTemp) {
         this.maxTemp = maxTemp;
     }
 
@@ -108,6 +108,6 @@ public class WeatherDao extends SugarRecord {
     }
 
     public void setUpdOn(LocalDateTime updOn) {
-        this.updOn = DateUtils.convertFromDateToUnixTimeStamp(updOn);
+        this.updOn = GeneralUtils.convertFromDateToUnixTimeStamp(updOn);
     }
 }

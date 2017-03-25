@@ -13,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import com.ashwinchat.singaporesurvivalguide.R;
+import com.ashwinchat.singaporesurvivalguide.async.WeatherAsyncTask;
 import com.ashwinchat.singaporesurvivalguide.fragments.MainFragment;
 import com.ashwinchat.singaporesurvivalguide.listeners.DrawerItemClickListener;
 import com.ashwinchat.singaporesurvivalguide.listeners.DrawerToggleListener;
@@ -87,4 +88,11 @@ public class WelcomePageActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        String apiKey = this.getString(R.string.open_weather_map_api_key);
+        WeatherAsyncTask task = new WeatherAsyncTask(apiKey);
+        task.execute();
+    }
 }

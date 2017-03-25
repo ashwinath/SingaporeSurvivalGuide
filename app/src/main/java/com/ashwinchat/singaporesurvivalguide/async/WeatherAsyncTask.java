@@ -16,10 +16,12 @@ import java.util.Vector;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import GeneralUtils.GeneralUtils;
+
 public class WeatherAsyncTask extends AsyncTask<String, Void, Void> {
 
     private String apiKey;
-    private final Logger LOGGER = Logger.getLogger(this.getClass().getName());
+    private final Logger LOGGER = Logger.getLogger(this.getClass().getSimpleName());
 
     public WeatherAsyncTask(String apiKey) {
         this.apiKey = apiKey;
@@ -28,6 +30,9 @@ public class WeatherAsyncTask extends AsyncTask<String, Void, Void> {
     @Override
     protected Void doInBackground(String... params) {
         try {
+            // 0. delete old data
+            LOGGER.log(Level.INFO, "Deleting old data");
+            WeatherDao.deleteAll(WeatherDao.class);
             // 1. Download json string
             LOGGER.log(Level.INFO, "Downloading from OpenWeatherMap...");
             String weatherJsonString = UnmarshallUtils.callOpenWeatherMapApi(apiKey);
@@ -55,10 +60,11 @@ public class WeatherAsyncTask extends AsyncTask<String, Void, Void> {
             // OpenWeatherMap calls it "list"
             for (List eachDayWeather : weatherObject.getList()) {
                 WeatherDao weatherDao = new WeatherDao();
+                weatherDao.setDate(eachDayWeather.getDt());
                 weatherDao.setHumidity(eachDayWeather.getHumidity());
                 if (eachDayWeather.getTemp() != null) {
-                    weatherDao.setMaxTemp(eachDayWeather.getTemp().getMax());
-                    weatherDao.setMinTemp(eachDayWeather.getTemp().getMin());
+                    weatherDao.setMaxTemp(GeneralUtils.formatTemperature(eachDayWeather.getTemp().getMax()));
+                    weatherDao.setMinTemp(GeneralUtils.formatTemperature(eachDayWeather.getTemp().getMin()));
                 }
                 weatherDao.setPressure(eachDayWeather.getPressure());
                 if (CollectionUtils.isNotEmpty(eachDayWeather.getWeather())) {

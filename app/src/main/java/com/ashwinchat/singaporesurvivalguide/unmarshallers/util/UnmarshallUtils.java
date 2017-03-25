@@ -40,6 +40,7 @@ public class UnmarshallUtils<T> {
                 .appendPath("forecast")
                 .appendPath("daily")
                 .appendQueryParameter("q", "singapore")
+                .appendQueryParameter("cnt", "14")
                 .appendQueryParameter("apikey", apiKey);
         return builder.build().toString();
 

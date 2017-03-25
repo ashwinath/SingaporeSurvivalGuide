@@ -15,7 +15,7 @@ import org.robolectric.annotation.Config;
 
 import java.util.List;
 
-import GeneralUtils.DateUtils;
+import GeneralUtils.GeneralUtils;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(manifest = "app/src/main/AndroidManifest.xml", packageName = "com.ashwinchat.singaporesurvivalguide", application = ClientApp.class)
@@ -40,7 +40,7 @@ public class TestWeatherDao {
 
     private List<WeatherDao> queryRecord(LocalDateTime date) {
         return Select.from(WeatherDao.class)
-                .where(Condition.prop("date").eq(DateUtils.convertFromDateToUnixTimeStamp(date)))
+                .where(Condition.prop("date").eq(GeneralUtils.convertFromDateToUnixTimeStamp(date)))
                 .list();
     }
 

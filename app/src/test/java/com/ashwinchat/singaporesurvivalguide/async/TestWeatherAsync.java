@@ -29,7 +29,7 @@ public class TestWeatherAsync {
         Thread.sleep(4000);
         List<WeatherDao> query = WeatherDao.listAll(WeatherDao.class);
         Assert.assertTrue(CollectionUtils.isNotEmpty(query));
-        Assert.assertEquals(7, query.size());
+        Assert.assertEquals(14, query.size());
     }
 
 
