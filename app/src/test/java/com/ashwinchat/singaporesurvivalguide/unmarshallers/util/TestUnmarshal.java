@@ -8,10 +8,12 @@ import org.apache.commons.lang3.StringUtils;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.robolectric.RobolectricTestRunner;
+import org.robolectric.annotation.Config;
 
 import java.io.IOException;
 
 @RunWith(RobolectricTestRunner.class)
+@Config(manifest = "app/src/main/AndroidManifest.xml")
 public class TestUnmarshal {
 
     private static final String ENV_KEY_API_KEY = "OPEN_WEATHER_MAP_API";
