@@ -22,7 +22,7 @@ public class TestUnmarshal {
     public void testBuildUri() {
         String apiKey = "DummyKey";
         String uri = UnmarshallUtils.buildWeatherUri(apiKey);
-        final String expectedUri = "http://api.openweathermap.org/data/2.5/forecast/daily?q=singapore&apikey=" + apiKey;
+        final String expectedUri = "http://api.openweathermap.org/data/2.5/forecast/daily?q=singapore&cnt=14&apikey=" + apiKey;
         Assert.assertEquals(expectedUri, uri);
     }
 
