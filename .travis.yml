@@ -1,33 +1,33 @@
 language: android
 before_install:
-  - mkdir "$ANDROID_HOME/licenses" || true
-  - echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
-  - echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
-  - sudo add-apt-repository ppa:openjdk-r/ppa -y
-  - sudo apt-get -qq update
-  - sudo apt-get install -y openjdk-8-jdk
-  - sudo update-java-alternatives -s java-1.8.0-openjdk-amd64
+- mkdir "$ANDROID_HOME/licenses" || true
+- echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > "$ANDROID_HOME/licenses/android-sdk-license"
+- echo -e "\n84831b9409646a918e30573bab4c9c91346d8abd" > "$ANDROID_HOME/licenses/android-sdk-preview-license"
+- sudo add-apt-repository ppa:openjdk-r/ppa -y
+- sudo apt-get -qq update
+- sudo apt-get install -y openjdk-8-jdk
+- sudo update-java-alternatives -s java-1.8.0-openjdk-amd64
 install:
-  - echo y | android update sdk -u -a -t tools
-  - echo y | android update sdk -u -a -t platform-tools
-  - echo y | android update sdk -u -a -t build-tools-25.0.2
-  - echo y | android update sdk -u -a -t android-25
-  - echo y | android update sdk -u -a -t extra-google-m2repository
-  - echo y | android update sdk -u -a -t extra-android-m2repository
+- echo y | android update sdk -u -a -t tools
+- echo y | android update sdk -u -a -t platform-tools
+- echo y | android update sdk -u -a -t build-tools-25.0.2
+- echo y | android update sdk -u -a -t android-25
+- echo y | android update sdk -u -a -t extra-google-m2repository
+- echo y | android update sdk -u -a -t extra-android-m2repository
 sudo: required
 android:
   components:
-    - build-tools-25.0.2
-    - android-21
-    - sys-img-armeabi-v7a-android-21
+  - build-tools-25.0.2
+  - android-21
+  - sys-img-armeabi-v7a-android-21
+before_script:
+- echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
+- emulator -avd test -no-skin -no-audio -no-window &
+- android-wait-for-emulator
+- adb shell input keyevent 82 &
+script:
+- "./gradlew test"
+- "./gradlew connectedAndroidTest"
 env:
   global:
-    secure: m07Rf5iid12GeYnY8+TzJF2ovXBz9Ui1jzhpkhmobFSlIZcGR+0K/Ng9NILGsNX3YlfKnwYlsTHz5a0ot7U0U6v1zcHbsq2VRiktF+ofOtmCtexbdHDh/bXII/7Rtz8IdffU0DuzBQZrW43A+5ZxFA8oX+IGc+5kaalpXYbDlFohtktXV5H8831x7lQnpP80qKsw1wMG+6aDAvGPwqRXVBBIZf7eVa4xPJPWCUZTK8usVXIUdWOuwH9OSB5z1BTx+YaPPLLZj3e8Jr+y+mFgxT6wL3CSGdVD6/OCv9NwMUdOZyoA+GIGoAOInxxnca2MIjcfjOpKdPSaKmM11BTVCuYJhn1Gqm7uxRg/q5lZSEWo2UPWuYhFFaSHIynI5oJwBsqjXuX410i38zxLDHXjg9nQhpJjacUZOP/hxETikuac/qhzB3Vopwq8t4iXwAh21XWkHxgArhncwC+SEaH0NNSlcfIEJkH6EO0ahTtdaQkzZgwlbCQETQbLkl8iK8LS8TeYfh1T23mNkLFlBUJwkir/t48/Pl/xurwmbmKWUhVXWz2L2CMbYM8d6nBEgKSZNtk6ooV5eX0mjkCdEIwsI/bj7YF9eJ6KTmpdx6IGuFvoTyR0BUqTXUId72ahtuezR2QbdGMXkh+b0ckp5OqcDT5v6Z1vkMB7+VeJ7SHpoQo=
-before_script:
-  - echo no | android create avd --force -n test -t android-21 --abi armeabi-v7a
-  - emulator -avd test -no-skin -no-audio -no-window &
-  - android-wait-for-emulator
-  - adb shell input keyevent 82 &
-script:
-  - ./gradlew test
-  - ./gradlew connectedAndroidTest
+    secure: KitSZ8G9BH7fXP/0Fi5ZgKz5GTNhRKW3/7ykRH1QNkXO9k8uKfsT36XdsZf0XElQsSbjcuqbEOXqBuIlMopoOnYfCiuYwSwF3z36+JmNMzn0zhmQw22i7iPGe6AZ/7FrokTAg1srknpRHGun4mAD1m5PHF8bKTLyJLtzf05QnNldoRHRdkYveiZ36sKk+kJYs7Gv1c+xIIh9pmkzBNS9oxPh7kLK7HtuCqS7J+9cJJfEz5IeZRRaMH4z+2p9haY+DnstmF3w8ZTGDzXBaq1bSY38R++mE2GVMwX+kxRJuYPG5GRcGzG8oJdCyKqPHow+eLpHU43D5op6l0KxBKWdD6ihtkI5aGPvf4K59NOGGWoDvr1KVY+UEvfGjLkKPUuilnW+px4wDVaOBPnLR/likdwnr8XO9qxkxPe4nEFRrdcRDzoUeoXxQkKoc/al8F6r5FxIGV517uxLnzXdyzxpgxBpfZyDxYlLhv4ZAp0V75wpLDc0ZHesWzrPJTZ6fNI/WYkL+KbO6gNxgMWH0gls84PbtHt2GVjfGfG2/JcDuNXAqN1iLrL5EyA931TnC405RBHaGvE8543m1ZMqMAaRGcbCtKe6YjTORv0iaHnRVPMvsonlowgQ8EBhgawou1x2x3vzF2rTP9w2Onhx3Tjm2DA4ncUc9qBTaFTzCDyyfKU=
