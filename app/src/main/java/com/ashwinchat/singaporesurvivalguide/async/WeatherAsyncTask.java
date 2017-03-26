@@ -1,6 +1,5 @@
 package com.ashwinchat.singaporesurvivalguide.async;
 
-import android.location.Location;
 import android.os.AsyncTask;
 
 import com.ashwinchat.singaporesurvivalguide.database.daos.WeatherDao;
