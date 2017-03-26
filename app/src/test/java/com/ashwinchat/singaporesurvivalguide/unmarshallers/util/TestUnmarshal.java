@@ -17,9 +17,19 @@ import java.io.IOException;
 public class TestUnmarshal {
 
     private static final String ENV_KEY_API_KEY = "OPEN_WEATHER_MAP_API";
+    private static final double lat = 1.3521;
+    private static final double lon = 103.8198;
 
     @Test
     public void testBuildUri() {
+        String apiKey = "DummyKey";
+        String uri = UnmarshallUtils.buildWeatherUri(apiKey, this.lat, this.lon);
+        final String expectedUri = "http://api.openweathermap.org/data/2.5/forecast/daily?lat=1.3521&lon=103.8198&cnt=14&apikey=" + apiKey;
+        Assert.assertEquals(expectedUri, uri);
+    }
+
+    @Test
+    public void testBuildUriOverLoaded() {
         String apiKey = "DummyKey";
         String uri = UnmarshallUtils.buildWeatherUri(apiKey);
         final String expectedUri = "http://api.openweathermap.org/data/2.5/forecast/daily?q=singapore&cnt=14&apikey=" + apiKey;
@@ -30,8 +40,8 @@ public class TestUnmarshal {
     public void testDownloadFromOpenWeatherMap() {
         boolean testCompleted = false;
         try {
-            final String apiKey = System.getenv(ENV_KEY_API_KEY);
-            String jsonString = UnmarshallUtils.callOpenWeatherMapApi(apiKey);
+            final String apiKey = System.getenv(this.ENV_KEY_API_KEY);
+            String jsonString = UnmarshallUtils.callOpenWeatherMapApi(apiKey, this.lat, this.lon);
             Assert.assertTrue(StringUtils.isNotBlank(jsonString));
             testCompleted = true;
         } catch (IOException e) {
@@ -46,7 +56,7 @@ public class TestUnmarshal {
         boolean testCompleted = false;
         try {
             final String apiKey = System.getenv(ENV_KEY_API_KEY);
-            String jsonString = UnmarshallUtils.callOpenWeatherMapApi(apiKey);
+            String jsonString = UnmarshallUtils.callOpenWeatherMapApi(apiKey, this.lat, this.lon);
             OpenWeatherMap weatherBean = UnmarshallUtils.convertJsonToObject(jsonString, OpenWeatherMap.class);
             Assert.assertNotNull(weatherBean);
             Assert.assertNotNull(weatherBean.getMessage());

@@ -19,7 +19,17 @@ public class UnmarshallUtils<T> {
     }
 
     public static String callOpenWeatherMapApi(String apiKey) throws IOException {
-        String weatherUri = buildWeatherUri(apiKey);
+        return callOpenWeatherMapApi(apiKey, null, null);
+    }
+
+    public static String callOpenWeatherMapApi(String apiKey, Double lat, Double lon) throws IOException {
+
+        String weatherUri;
+        if (lat == null || lon == null) {
+            weatherUri = buildWeatherUri(apiKey);
+        } else {
+            weatherUri = buildWeatherUri(apiKey, lat, lon);
+        }
         InputStream inStream = new URL(weatherUri).openStream();
         String jsonString = null;
         try {
@@ -28,6 +38,23 @@ public class UnmarshallUtils<T> {
             IOUtils.closeQuietly(inStream);
         }
         return jsonString;
+    }
+
+    // Chose apache utils over android URI builder since there's some problem with unit testing and I love my unit tests.
+    public static String buildWeatherUri(String apiKey, double lat, double lon) {
+        Builder builder = new Builder();
+        builder.scheme("http")
+                .authority("api.openweathermap.org")
+                .appendPath("data")
+                .appendPath("2.5")
+                .appendPath("forecast")
+                .appendPath("daily")
+                .appendQueryParameter("lat", "" + lat)
+                .appendQueryParameter("lon", "" + lon)
+                .appendQueryParameter("cnt", "14")
+                .appendQueryParameter("apikey", apiKey);
+        return builder.build().toString();
+
     }
 
     // Chose apache utils over android URI builder since there's some problem with unit testing and I love my unit tests.
@@ -45,5 +72,4 @@ public class UnmarshallUtils<T> {
         return builder.build().toString();
 
     }
-
 }

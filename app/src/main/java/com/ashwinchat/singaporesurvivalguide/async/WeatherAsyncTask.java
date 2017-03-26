@@ -1,5 +1,6 @@
 package com.ashwinchat.singaporesurvivalguide.async;
 
+import android.location.Location;
 import android.os.AsyncTask;
 
 import com.ashwinchat.singaporesurvivalguide.database.daos.WeatherDao;
@@ -21,26 +22,40 @@ import GeneralUtils.GeneralUtils;
 public class WeatherAsyncTask extends AsyncTask<String, Void, Void> {
 
     private String apiKey;
+    private double lat;
+    private double lon;
+    private boolean useDefaultLocation;
     private final Logger LOGGER = Logger.getLogger(this.getClass().getSimpleName());
 
-    public WeatherAsyncTask(String apiKey) {
+    public WeatherAsyncTask(String apiKey, Double lat, Double lon) {
         this.apiKey = apiKey;
+        if (lat != null || lon != null) {
+            this.lat = lat;
+            this.lon = lon;
+            useDefaultLocation = false;
+        } else {
+            useDefaultLocation = true;
+        }
     }
 
     @Override
     protected Void doInBackground(String... params) {
         try {
             // 0. delete old data
-            LOGGER.log(Level.INFO, "Deleting old data");
             WeatherDao.deleteAll(WeatherDao.class);
             // 1. Download json string
             LOGGER.log(Level.INFO, "Downloading from OpenWeatherMap...");
-            String weatherJsonString = UnmarshallUtils.callOpenWeatherMapApi(apiKey);
+            String weatherJsonString = null;
+            if (useDefaultLocation) {
+                weatherJsonString = UnmarshallUtils.callOpenWeatherMapApi(apiKey);
+                LOGGER.log(Level.INFO, "Using default location");
+            } else {
+                weatherJsonString = UnmarshallUtils.callOpenWeatherMapApi(apiKey, this.lat, this.lon);
+                LOGGER.log(Level.INFO, "Using user's location");
+            }
             // 2. Unmarshal
-            LOGGER.log(Level.INFO, "Unmarshalling object...");
             OpenWeatherMap weatherObject = UnmarshallUtils.convertJsonToObject(weatherJsonString, OpenWeatherMap.class);
             // 3. Persist into db
-            LOGGER.log(Level.INFO, "Persisting into database...");
             this.persistWeatherData(weatherObject);
             LOGGER.log(Level.INFO, "Database Synchronised!");
 

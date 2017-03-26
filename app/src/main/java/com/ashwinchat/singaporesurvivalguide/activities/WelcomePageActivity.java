@@ -11,7 +11,6 @@ import android.location.LocationManager;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.os.Bundle;
@@ -146,18 +145,14 @@ public class WelcomePageActivity extends AppCompatActivity {
         }
     }
 
-    private void getUserPermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
-        } else {
-            ActivityCompat.requestPermissions(this, new String[] { Manifest.permission.ACCESS_FINE_LOCATION }, 1);
-        }
-
-    }
-
     private void startWeatherAsyncTask() {
         String apiKey = this.getString(R.string.open_weather_map_api_key);
-        WeatherAsyncTask task = new WeatherAsyncTask(apiKey);
+        WeatherAsyncTask task;
+        if (this.getLocation() != null) {
+            task = new WeatherAsyncTask(apiKey, this.getLocation().getLatitude(), this.getLocation().getLongitude());
+        } else {
+            task = new WeatherAsyncTask(apiKey, null, null);
+        }
         task.execute();
     }
 

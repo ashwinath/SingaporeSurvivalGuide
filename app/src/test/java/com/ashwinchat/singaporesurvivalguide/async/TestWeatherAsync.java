@@ -17,6 +17,8 @@ import java.util.List;
 @Config(manifest = "app/src/main/AndroidManifest.xml", packageName = "com.ashwinchat.singaporesurvivalguide", application = ClientApp.class)
 public class TestWeatherAsync {
     private static final String ENV_KEY_API_KEY = "OPEN_WEATHER_MAP_API";
+    private static final double lat = 1.3521;
+    private static final double lon = 103.8198;
 
     @Test
     public void testAsync() throws InterruptedException {
@@ -24,7 +26,7 @@ public class TestWeatherAsync {
         WeatherDao.deleteAll(WeatherDao.class);
 
         final String apiKey = System.getenv(ENV_KEY_API_KEY);
-        WeatherAsyncTask task = new WeatherAsyncTask(apiKey);
+        WeatherAsyncTask task = new WeatherAsyncTask(apiKey, this.lat, this.lon);
         task.execute();
         Thread.sleep(4000);
         List<WeatherDao> query = WeatherDao.listAll(WeatherDao.class);
