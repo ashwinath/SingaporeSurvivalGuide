@@ -33,6 +33,7 @@
             android:id="@+id/list_item_date_textview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/primary_text"
             android:fontFamily="sans-serif-condensed"
             android:text="Tomorrow"
             android:textSize="20sp"/>
@@ -51,24 +52,28 @@
         android:layout_height="wrap_content"
         android:layout_weight="5"
         android:layout_gravity="center"
-        android:orientation="vertical">
+        android:orientation="horizontal">
 
         <TextView
             android:id="@+id/list_item_high_textview"
-            android:text="10°"
+            android:text="15°"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:fontFamily="sans-serif-condensed"
-            android:textAppearance="?android:textAppearanceLarge"/>
+            android:textColor="@color/primary_text"
+            android:textSize="@dimen/forecast_text_size"/>
 
         <TextView
             android:id="@+id/list_item_low_textview"
             android:text="10°"
+            android:layout_weight="1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/forecast_low_text"
             android:layout_gravity="center"
             android:fontFamily="sans-serif-condensed"
-            android:textAppearance="?android:textAppearanceSmall"/>
+            android:textSize="@dimen/forecast_text_size"/>
     </LinearLayout>
 </LinearLayout>
